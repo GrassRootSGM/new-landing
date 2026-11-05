@@ -18,7 +18,8 @@ a { color: inherit; text-decoration: none; }
 .grain { position: fixed; inset: 0; pointer-events: none; z-index: 10; opacity: .13; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E"); }
 .site-header { width: min(1400px, calc(100% - 64px)); margin: 0 auto; padding: 24px 0; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); animation: rise .7s ease both; }
 .wordmark { display: inline-flex; align-items: center; gap: 12px; font-size: .82rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-.mini-logo { width: 42px; height: 42px; object-fit: cover; border-radius: 50%; }
+.mini-logo { width: 42px; height: 42px; object-fit: contain; }
+.header-logo { display: block; width: clamp(175px, 19vw, 250px); height: auto; object-fit: contain; }
 .header-contact, .primary-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: transform 180ms ease, background-color 180ms ease, color 180ms ease; }
 .header-contact { padding: 11px 18px; border: 1px solid var(--ink); border-radius: 100px; font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .header-contact:hover, .header-contact:focus-visible { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
@@ -33,7 +34,7 @@ h1 em, .contact-copy h2 em { display: block; color: var(--terracotta); font-weig
 .primary-button:hover, .primary-button:focus-visible { background: var(--terracotta); transform: translate(-2px,-2px); }
 .text-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 0 7px; border-bottom: 1px solid var(--ink); font-size: .82rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .logo-stage { position: relative; min-height: 610px; display: grid; place-items: center; animation: rise .9s .24s ease both; }
-.logo-card { position: relative; width: min(100%,490px); margin: 0; padding: 0; overflow: hidden; background: #000; box-shadow: 0 35px 80px rgba(61,54,42,.18); transform: rotate(2.5deg); transition: transform 350ms ease; z-index: 2; }
+.logo-card { position: relative; width: min(100%,490px); margin: 0; padding: 0; overflow: hidden; background: transparent; box-shadow: 0 35px 80px rgba(61,54,42,.18); transform: rotate(2.5deg); transition: transform 350ms ease; z-index: 2; }
 .logo-card:hover { transform: rotate(0) scale(1.015); }
 .logo-card img { display: block; width: 100%; height: auto; }
 .logo-label { position: absolute; top: 14px; left: 14px; padding: 6px 9px; background: rgba(233,229,218,.92); color: var(--green-dark); font-size: .58rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; z-index: 2; }
@@ -65,3 +66,12 @@ footer a:hover { color: var(--paper); }
 @media(max-width:980px) { .hero { grid-template-columns:1fr; padding-top:80px; } .hero-copy {max-width:800px} .logo-stage {min-height:570px} .logo-card {width:min(78vw,480px)} .about-strip {grid-template-columns:1fr auto} .section-number {grid-column:1/-1} }
 @media(max-width:640px) { .site-header,.hero {width:min(100% - 40px,1400px)} .site-header {padding:20px 0} .wordmark {font-size:.69rem;letter-spacing:.11em} .header-contact {padding:10px 13px;font-size:.68rem} .hero {min-height:auto;padding:64px 0 74px;gap:52px} .eyebrow {margin-bottom:26px;font-size:.68rem} h1 {font-size:clamp(3.55rem,18vw,5.5rem)} .intro {margin-top:28px} .hero-actions {align-items:flex-start;flex-direction:column;gap:20px} .logo-stage {min-height:390px} .logo-card {width:min(82vw,350px)} .orbit-one {width:370px;height:370px} .orbit-two {width:300px;height:300px} .location-note {display:none} .about-strip {grid-template-columns:1fr;padding:68px 20px} .about-statement {font-size:clamp(2.35rem,11vw,3.6rem)} .round-link {width:62px;height:62px} .contact-section {grid-template-columns:1fr;padding:68px 20px;gap:38px} footer {padding:24px 20px;flex-direction:column} }
 @media(prefers-reduced-motion:reduce) { html {scroll-behavior:auto} *,*::before,*::after {animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important} }
+
+/* Requested adjustments: preserve original colours, remove black card, and reduce contact heading. */
+.logo-card { background: transparent; box-shadow: none; }
+.about-strip { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(30px, 5vw, 85px); }
+.contact-copy h2 { font-size: clamp(1.8rem, 3vw, 3.1rem); line-height: 1.12; letter-spacing: -.035em; }
+.about-strip .contact-form input, .about-strip .contact-form textarea { border-color: rgba(233,229,218,.3); background: rgba(255,255,255,.08); color: var(--paper); }
+.about-strip .contact-form input:focus, .about-strip .contact-form textarea:focus { outline-color: var(--terracotta); }
+.about-strip .form-status { color: var(--paper); }
+@media (max-width: 760px) { .about-strip { grid-template-columns: 1fr; } .header-logo { width: clamp(170px, 50vw, 230px); } }
