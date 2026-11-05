@@ -17,11 +17,11 @@ export async function onRequestPost({ request, env }) {
   if (!name || !email || !message || name.length > 120 || email.length > 254 || message.length > 5000) {
     return Response.json({ error: 'Please complete all fields and check their length.' }, { status: 400 });
   }
-  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return Response.json({ error: 'Please enter a valid email address.' }, { status: 400 });
   }
   if (!env.RESEND_API_KEY || !env.CONTACT_TO || !env.FROM_EMAIL) {
-    return Response.json({ error: 'The contact form is not configured yet. Please email hello@grassrootsgm.org.' }, { status: 503 });
+    return Response.json({ error: 'The contact form is not configured yet. Please try again later.' }, { status: 503 });
   }
 
   const result = await fetch('https://api.resend.com/emails', {

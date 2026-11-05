@@ -16,7 +16,7 @@ form?.addEventListener('submit', async (event) => {
     form.reset();
     status.textContent = 'Thank you — your message has been sent.';
   } catch (error) {
-    status.textContent = error.message || 'Something went wrong. Please email hello@grassrootsgm.org.';
+    status.textContent = error.message || 'Something went wrong. Please try again later.';
   } finally {
     button.disabled = false;
   }
