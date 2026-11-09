@@ -23,6 +23,36 @@ export async function onRequestPost({ request, env }) {
     return Response.json({ ok: true });
   }
 
+  // Verify Cloudflare Turnstile on the server: client-side checks alone can be bypassed.
+  const token = String(form.get('cf-turnstile-response') || '');
+  if (!env.TURNSTILE_SECRET_KEY) {
+    console.error('Missing TURNSTILE_SECRET_KEY');
+    return Response.json({ error: 'Contact form verification is not configured.' }, { status: 503 });
+  }
+  if (!token || token.length > 2048) {
+    return Response.json({ error: 'Please complete the anti-spam check.' }, { status: 400 });
+  }
+  let verification;
+  try {
+    const verificationResponse = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        secret: env.TURNSTILE_SECRET_KEY,
+        response: token,
+        remoteip: request.headers.get('CF-Connecting-IP') || undefined
+      })
+    });
+    if (!verificationResponse.ok) throw new Error('Turnstile verification unavailable');
+    verification = await verificationResponse.json();
+  } catch (error) {
+    console.error('Turnstile verification request failed', error.message);
+    return Response.json({ error: 'Anti-spam verification is temporarily unavailable. Please try again.' }, { status: 502 });
+  }
+  if (!verification.success) {
+    return Response.json({ error: 'Anti-spam verification failed. Please try again.' }, { status: 400 });
+  }
+
   const name = String(form.get('name') || '').trim();
   const email = String(form.get('email') || '').trim();
   const message = String(form.get('message') || '').trim();

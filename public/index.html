@@ -53,6 +53,7 @@
         <label for="message">Message</label>
         <textarea id="message" name="message" rows="5" required maxlength="5000"></textarea>
         <div class="form-trap" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+        <div class="cf-turnstile" data-sitekey="REPLACE_WITH_TURNSTILE_SITE_KEY" data-theme="auto"></div>
         <button class="primary-button" type="submit">Send message <span aria-hidden="true">↗</span></button>
         <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
       </form>
@@ -64,6 +65,7 @@
     
     </footer>
   </main>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script src="/script.js" defer></script>
 </body>
 </html>
